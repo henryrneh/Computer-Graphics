@@ -83,18 +83,14 @@ glm::mat4 lookAt(const glm::vec3 &camPos, const glm::vec3 &viewDirection, const 
     // Add your code here:
     // ====================================================================
 
+    // press "d"
+    // glm::mat4 view = glm::lookAt(camPos, viewDirection, up);
     glm::vec3 vd = glm::normalize(viewDirection);
     glm::vec3 r = glm::normalize(glm::cross(vd, up));
     glm::vec3 u = glm::normalize(glm::cross(r, vd));
-    glm::mat4 lm = glm::mat4(r[0], r[1], r[2], 0, u[0], u[1], u[2], 0, -vd[0], -vd[1], -vd[2], 0, camPos[0], camPos[1], camPos[2], 1);
-    glm::mat4 Lm = glm::mat4(r[0], u[0], -vd[0], 0, r[1], u[1], -vd[1], 0, r[2], u[2], -vd[2], 0, glm::dot(-r, camPos), glm::dot(-u, camPos), glm::dot(vd, camPos), 1);
+    glm::mat4 lm = glm::mat4(r[0], u[0], -vd[0], 0, r[1], u[1], -vd[1], 0, r[2], u[2], -vd[2], 0, glm::dot(-r, camPos), glm::dot(-u, camPos), glm::dot(vd, camPos), 1);
 
-    for (size_t i = 0; i < 4; i++) {
-      cout << Lm[i].x << " " << Lm[i].y << " " << Lm[i].z << " " << Lm[i].w << endl;
-    }
-    puts("");
-
-    return Lm;
+    return lm;
 
     // ====================================================================
     // End Exercise code
@@ -235,8 +231,6 @@ void drawCar( float angle, int lane, glm::vec3 color )
 void drawScene(int scene, float runTime) {
 
     float angle1 = -2.0f*M_PI*runTime/60.0f;
-
-    scene = 4;
 
 	if (scene != 4) {
 
