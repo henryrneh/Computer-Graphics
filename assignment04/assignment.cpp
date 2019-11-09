@@ -68,6 +68,14 @@ glm::mat4 buildFrustum( float phiInDegree, float aspectRatio, float near, float 
     // buildFrustum function for programming exercise part b:
     // Add your code here:
     // ====================================================================
+    float t = near * tan(phiInDegree / 2);
+    float b = -t;
+    float r = aspectRatio * t;
+    float l = -r;
+
+    cout << "t " << t << " b " << b << " r " << r << " l " << l << endl;
+
+    fm = glm::mat4((2.0 * near) / (r - l), 0, 0, 0, 0, (2.0 * near) / (t - b), 0, 0, (r + l) / (r- l), (t + b) / (t - b), -(far + near) / (far - near), -1, 0, 0, (-2.0 * far * near) / (far - near), 0);
 
     // ====================================================================
     // End Exercise code
@@ -84,7 +92,6 @@ glm::mat4 lookAt(const glm::vec3 &camPos, const glm::vec3 &viewDirection, const 
     // ====================================================================
 
     // press "d"
-    // glm::mat4 view = glm::lookAt(camPos, viewDirection, up);
     glm::vec3 vd = glm::normalize(viewDirection);
     glm::vec3 r = glm::normalize(glm::cross(vd, up));
     glm::vec3 u = glm::normalize(glm::cross(r, vd));
@@ -99,12 +106,13 @@ glm::mat4 lookAt(const glm::vec3 &camPos, const glm::vec3 &viewDirection, const 
 
 void resizeCallback( int newWidth, int newHeight )
 {
-    glViewport( 0, 0, newWidth, newHeight );
 
     // ====================================================================
     // projection matrix setup for programming exercise part d:
     // Add your code here:
     // ====================================================================
+
+    g_ProjectionMatrix =  buildFrustum(M_PI / 2, newWidth / newHeight, 0.1f, 100.0f);
 
     // ====================================================================
     // End Exercise code
@@ -240,6 +248,10 @@ void drawScene(int scene, float runTime) {
         // =====================================================
 
 
+        glm::vec3 pos = glm::vec3(0.0,-1.0,1.0 );
+        g_ViewMatrix = lookAt( pos, glm::vec3(0,0,0)-pos, glm::cross(glm::cross(glm::vec3(0,0,0)-pos,glm::vec3(0,0,1)),glm::vec3(0,0,0)-pos) );
+
+
         // =====================================================
         // End Exercise code
         // =====================================================
@@ -261,6 +273,20 @@ void drawScene(int scene, float runTime) {
         // Moving camera for programming exercise part e:
         // Add your code here:
         // =====================================================
+
+        glm::mat4 transformCar;
+
+        // Scale second car to fit onto track
+        transformCar[0][0] *= 0.04;
+        transformCar[1][1] *= 0.1;
+        transformCar[2][2] *= 0.03;
+        transformCar[3][2] = -height;
+        transformCar[3][0] = -0.85;
+
+        glm::mat4 rotation = getRotationMatrixZAxis( angle1 );
+        rotation *= transformCar;
+        cout<<"row"<<rotation[3][0]<<endl;
+        cout<<rotation[0][3]<<endl;
 
 
         // =====================================================
