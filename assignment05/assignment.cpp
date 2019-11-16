@@ -120,7 +120,7 @@ void drawTriangle( const glm::vec4& p0_in, const glm::vec4& p1_in, const glm::ve
             // ====================================================================
             if ((evaluateF(v0,v1,p)*evaluateF(v0,v2,p)<0) &&
             (evaluateF(v1,v2,p)*evaluateF(v1,v0,p)<0) ){
-            setPixel(p[0],p[1], abs(normal.z) * color);
+            setPixel(p[0],p[1], abs(diffuse) * color);
 
             }
 
