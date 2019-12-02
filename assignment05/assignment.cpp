@@ -191,14 +191,17 @@ void drawScene(int _scene, float _runTime) {
         // Assignment section d
         // Add your code here:
         // ====================================================================
-
-        glm::mat4 transformation;
+        glm::mat4 transformation ;
         transformation[0][0]=cos(_runTime);
-        transformation[1][1]=cos(_runTime);
-        transformation[0][1]=-sin(_runTime);
-        transformation[1][0]=sin(_runTime);
+        transformation[2][2]=cos(_runTime);
+        transformation[0][2]=sin(_runTime);
+        transformation[2][0]=-sin(_runTime);
+        // = glm::mat4(cos(_runTime), 0.0, -sin(_runTime), 0.0,
+        //  0.0, 1.0, 0.0, 0.0,
+        //   sin(_runTime), 0.0, cos(_runTime), 0.0,
+        //    0.0, 0.0, 0.0, 1.0);
 
-        g_ProjectionMatrix=g_ProjectionMatrix*transformation; 
+        g_ProjectionMatrix=transformation*g_ModelViewMatrix; 
         // ====================================================================
         // End Exercise code
         // ====================================================================
